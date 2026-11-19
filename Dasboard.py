@@ -281,7 +281,11 @@ def main():
     def read_table(data: bytes, name: str, sheet, header_row: int):
         if name.lower().endswith((".csv", ".txt")):
             try:
-                return pd.read_csv(io.BytesIO(data), header=header_row - 1)
+                return pd.read_csv(
+                    io.BytesIO(data),
+                    header=header_row - 1,
+                    low_memory=False
+                )
             except UnicodeDecodeError:
                 return pd.read_csv(io.BytesIO(data), header=header_row - 1, encoding="latin-1")
         return pd.read_excel(io.BytesIO(data), sheet_name=sheet, header=header_row - 1)
